@@ -1,0 +1,11 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int n, int k) {
+    int service_drinks = n / 10; // 10인분당 서비스 음료 1개
+    int answer = (n * 12000) + ((k - service_drinks) * 2000);
+    return answer;
+}
+ 

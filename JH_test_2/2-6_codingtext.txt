@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+long long solution(int r1, int r2) {
+    long long r1_sq = (long long)r1 * r1;
+    long long r2_sq = (long long)r2 * r2;
+
+    // 1사분면에서 세는 개수
+    long long Q = 0;    // 총합 (Interior+Lx0+Ly0)
+    long long Lx0 = 0;  // x=0위의 점들 (y축 위)
+    long long Ly0 = 0;  // y=0위의 점들 (x축 위)
+    long long Interior = 0;
+
+    // x=0일 때 Lx0 계산
+    // r1² ≤ y² ≤ r2² 이므로 y는 r1 이상 r2 이하 정수
+    Lx0 = (r2 - r1 + 1);
+    Q += Lx0;
+
+    // x > 0일 때
+    for (int x = 1; x <= r2; x++) {
+        long long x_sq = (long long)x * x;
+        // 큰 원에서의 y 최대값
+        long long max_y = (long long)floor(sqrt(r2_sq - x_sq));
+
+        // 작은 원에서의 y 최소값
+        long long min_y = 0;
+        if (x_sq < r1_sq) {
+            // r1² ≤ x² + y² 이므로 y² ≥ r1² - x²
+            // 따라서 min_y = ceil(sqrt(r1² - x²))
+            double tmp = sqrt((long double)r1_sq - x_sq);
+            min_y = (long long)ceil(tmp);
+        }
+
+        if (max_y >= min_y) {
+            long long count_y = (max_y - min_y + 1);
+            // y=0이 포함되는 경우 (min_y=0)
+            if (min_y == 0) {
+                // 하나는 y=0축 점 (Ly0), 나머지는 내부 점
+                Ly0 += 1;
+                long long interior_count = count_y - 1; 
+                Interior += interior_count;
+                Q += count_y; // interior + line point
+            } else {
+                // 전부 내부 점
+                Interior += count_y;
+                Q += count_y;
+            }
+        }
+    }
+
+    // 이제 Full을 계산
+    // Full = 4Q - 2Lx0 - 2Ly0
+    long long Full = 4 * Q - 2 * Lx0 - 2 * Ly0;
+    return Full;
+}
+
+int main(){
+    int r1 = 2, r2 = 3;
+    cout << solution(r1, r2) << "\n"; // 예: 20
+    return 0;
+}

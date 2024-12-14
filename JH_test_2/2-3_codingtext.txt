@@ -1,0 +1,26 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(vector<int> ingredient) {
+    vector<int> st;
+    int count = 0;
+    
+    for (int ing : ingredient) {
+        st.push_back(ing);
+        // 스택의 끝에서 4개 원소가 1,2,3,1이면 제거
+        if (st.size() >= 4) {
+            if (st[st.size()-4] == 1 &&
+                st[st.size()-3] == 2 &&
+                st[st.size()-2] == 3 &&
+                st[st.size()-1] == 1) {
+                // 해당 패턴 제거
+                st.erase(st.end()-4, st.end());
+                count++;
+            }
+        }
+    }
+    
+    return count;
+}

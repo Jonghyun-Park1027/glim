@@ -1,0 +1,13 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int a, int b) {
+    // a⊕b와 b⊕a 계산
+    int ab = stoi(to_string(a) + to_string(b));
+    int ba = stoi(to_string(b) + to_string(a));
+    
+    // 비교 후 결과 반환
+    return ab >= ba ? ab : ba;
+}
